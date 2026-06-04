@@ -1,18 +1,13 @@
 {
   "version": 2,
   "buildCommand": "bash build_files.sh",
-  "outputDirectory": "staticfiles",
-  "framework": null,
-  "functions": {
-    "config/wsgi.py": {
-      "runtime": "python3.11"
-    }
-  },
-  "routes": [
+  "builds": [
     {
-      "src": "/static/(.*)",
-      "dest": "/static/$1"
-    },
+      "src": "config/wsgi.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
     {
       "src": "/(.*)",
       "dest": "config/wsgi.py"
