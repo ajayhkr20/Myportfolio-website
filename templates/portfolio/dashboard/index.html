@@ -1,0 +1,54 @@
+{% extends 'portfolio/dashboard/base_dashboard.html' %}
+
+{% block dashboard_content %}
+<h1>Dashboard</h1>
+<p class="dash-sub">Welcome back! Manage your portfolio from here.</p>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <span class="stat-num">{{ message_count }}</span>
+        <span class="stat-label">Unread Messages</span>
+    </div>
+    <div class="stat-card">
+        <span class="stat-num">{{ visitor_count }}</span>
+        <span class="stat-label">Site Visitors</span>
+    </div>
+    <div class="stat-card">
+        <span class="stat-num">{{ user_count }}</span>
+        <span class="stat-label">Users</span>
+    </div>
+    <div class="stat-card">
+        <span class="stat-num">{{ project_count }}</span>
+        <span class="stat-label">Projects</span>
+    </div>
+</div>
+
+<div class="dash-grid">
+    <div class="dash-panel">
+        <h2>Recent Messages</h2>
+        {% for msg in recent_messages %}
+        <a href="{% url 'message_detail' msg.pk %}" class="dash-list-item">
+            <strong>{{ msg.name }}</strong>
+            <span>{{ msg.subject|truncatewords:8 }}</span>
+            <small>{{ msg.created_at|date:"M d, H:i" }}</small>
+        </a>
+        {% empty %}
+        <p class="empty-state">No messages yet.</p>
+        {% endfor %}
+        <a href="{% url 'message_list' %}" class="dash-link">View all messages &rarr;</a>
+    </div>
+    <div class="dash-panel">
+        <h2>Recent Visitors</h2>
+        {% for v in recent_visitors %}
+        <div class="dash-list-item">
+            <strong>{{ v.ip_address|default:"Unknown" }}</strong>
+            <span>{{ v.page }}</span>
+            <small>{{ v.visited_at|date:"M d, H:i" }}</small>
+        </div>
+        {% empty %}
+        <p class="empty-state">No visitors tracked yet.</p>
+        {% endfor %}
+        <a href="{% url 'visitor_list' %}" class="dash-link">View all visitors &rarr;</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'portfolio/dashboard/base_dashboard.html' %}
+
+{% block dashboard_content %}
+<div class="dash-header-row">
+    <div>
+        <h1>{{ model_verbose }}</h1>
+    </div>
+    <a href="{% url 'crud_create' model_name %}" class="btn btn-primary">Add New</a>
+</div>
+
+<div class="table-wrap">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Order</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>
+                    {% if model_name == 'experience' %}{{ item.role }} — {{ item.company }}
+                    {% elif model_name == 'project' %}{{ item.title }}
+                    {% elif model_name == 'education' %}{{ item.degree }}
+                    {% else %}{{ item }}{% endif %}
+                </td>
+                <td>{{ item.order }}</td>
+                <td class="actions">
+                    <a href="{% url 'crud_edit' model_name item.pk %}">Edit</a>
+                    <a href="{% url 'crud_delete' model_name item.pk %}" class="danger">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="3" class="empty-state">No items yet. Add one to get started.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

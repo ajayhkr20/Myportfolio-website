@@ -1,0 +1,16 @@
+{% extends 'portfolio/dashboard/base_dashboard.html' %}
+
+{% block dashboard_content %}
+<a href="{% url 'message_list' %}" class="back-link">&larr; Back to messages</a>
+<h1>{{ msg.subject }}</h1>
+<p class="dash-sub">From {{ msg.name }} &lt;{{ msg.email }}&gt; · {{ msg.created_at|date:"F d, Y at H:i" }}</p>
+
+<div class="message-detail">
+    {{ msg.message|linebreaks }}
+</div>
+
+<div class="dash-actions">
+    <a href="mailto:{{ msg.email }}?subject=Re: {{ msg.subject }}" class="btn btn-primary">Reply via Email</a>
+    <a href="{% url 'message_delete' msg.pk %}" class="btn btn-outline danger">Delete</a>
+</div>
+{% endblock %}
