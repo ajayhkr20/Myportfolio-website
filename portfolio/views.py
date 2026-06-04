@@ -84,7 +84,12 @@ def download_resume(request):
     profile = Profile.objects.filter(is_active=True).first()
     if not profile or not profile.resume:
         raise Http404('Resume not available')
-    return redirect(profile.resume.url)
+    
+    # Add fl_attachment:false to force inline viewing in browser
+    url = profile.resume.url
+    if 'cloudinary' in url:
+        url = url.replace('/upload/', '/upload/fl_inline/')
+    return redirect(url)
 
 
 def staff_required(view_func):
