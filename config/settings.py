@@ -11,9 +11,9 @@ DEBUG = config('DEBUG', default='False').lower() == 'true'
 ALLOWED_HOSTS = ['*']
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://*.vercel.app',
+    'https://myportfolio-website-omega.vercel.app',
+    'https://portfolioaj-jade.vercel.app',
 ]
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
