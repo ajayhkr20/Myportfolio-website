@@ -1,0 +1,4 @@
+/* projects-enhanced.css — canvas layer, everything else is in style.css */
+#projects { position: relative; overflow: hidden; }
+#projects-canvas { position: absolute; inset: 0; pointer-events: none; z-index: 0; opacity: .5; }
+#projects > .container { position: relative; z-index: 1; }
