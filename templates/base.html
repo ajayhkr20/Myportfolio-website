@@ -25,5 +25,214 @@
 
     <script src="{% static 'js/main.js' %}"></script>
     {% block extra_js %}{% endblock %}
+
+<!-- ═══════════════════════════════════════════════
+     AJAY'S PORTFOLIO AI CHATBOT
+     Real-time streaming · API key stays on server
+═══════════════════════════════════════════════ -->
+<style>
+#aj-chat-wrap{position:fixed;bottom:24px;right:24px;z-index:99999;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+#aj-toggle{width:54px;height:54px;border-radius:50%;background:#6c63ff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(108,99,255,.4);transition:transform .2s}
+#aj-toggle:hover{transform:scale(1.08)}
+#aj-toggle svg{width:26px;height:26px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+#aj-notif{position:absolute;top:3px;right:3px;width:13px;height:13px;background:#ef4444;border:2px solid #fff;border-radius:50%;display:none;animation:aj-pulse 1.6s infinite}
+@keyframes aj-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.25)}}
+#aj-box{position:absolute;bottom:66px;right:0;width:330px;background:#fff;border-radius:18px;border:1px solid rgba(0,0,0,.08);box-shadow:0 12px 40px rgba(0,0,0,.14);display:none;flex-direction:column;overflow:hidden;height:460px}
+#aj-box.open{display:flex;animation:aj-popin .18s ease}
+@keyframes aj-popin{from{opacity:0;transform:scale(.93)}to{opacity:1;transform:scale(1)}}
+#aj-head{background:linear-gradient(135deg,#6c63ff,#4f46e5);padding:13px 15px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.aj-hav{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#fff;flex-shrink:0}
+.aj-hname{color:#fff;font-weight:600;font-size:13px;margin:0}
+.aj-hsub{color:rgba(255,255,255,.72);font-size:11px;margin:0}
+#aj-online{margin-left:auto;display:flex;align-items:center;gap:5px}
+#aj-ondot{width:8px;height:8px;border-radius:50%;background:#4ade80;animation:aj-blink 2.8s infinite}
+@keyframes aj-blink{0%,92%,100%{opacity:1}96%{opacity:.2}}
+#aj-msgs{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:9px;background:#f8f9fb;scroll-behavior:smooth}
+#aj-msgs::-webkit-scrollbar{width:3px}
+#aj-msgs::-webkit-scrollbar-thumb{background:#ddd;border-radius:3px}
+.aj-row{display:flex;gap:7px;align-items:flex-end}
+.aj-row.u{justify-content:flex-end}
+.aj-av{width:26px;height:26px;border-radius:50%;background:#6c63ff;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
+.bbl{padding:8px 12px;border-radius:14px;max-width:80%;font-size:13px;line-height:1.55;word-break:break-word}
+.bbl.bot{background:#fff;border:1px solid #ebebeb;color:#111;border-radius:14px 14px 14px 3px}
+.bbl.usr{background:#6c63ff;color:#fff;border-radius:14px 14px 3px 14px}
+.aj-cursor{display:inline-block;width:2px;height:12px;background:#6c63ff;margin-left:2px;vertical-align:middle;animation:aj-cur .65s infinite}
+@keyframes aj-cur{0%,100%{opacity:1}50%{opacity:0}}
+.tdot{width:6px;height:6px;border-radius:50%;background:#bbb;display:inline-block;animation:aj-td 1.1s infinite}
+.tdot:nth-child(2){animation-delay:.18s}.tdot:nth-child(3){animation-delay:.36s}
+@keyframes aj-td{0%,80%,100%{transform:scale(.75);opacity:.4}40%{transform:scale(1.1);opacity:1}}
+#aj-sugs{padding:6px 10px 4px;display:flex;gap:5px;flex-wrap:wrap;background:#f8f9fb;border-top:1px solid #f0f0f0;flex-shrink:0}
+.aj-sug{font-size:11px;padding:4px 9px;border-radius:20px;border:1px solid #e0e0e0;background:#fff;color:#555;cursor:pointer;transition:background .14s,color .14s}
+.aj-sug:hover{background:#6c63ff;color:#fff;border-color:#6c63ff}
+#aj-foot{padding:9px 11px;border-top:1px solid #ebebeb;display:flex;gap:7px;align-items:flex-end;background:#fff;flex-shrink:0}
+#aj-inp{flex:1;border:1px solid #e0e0e0;border-radius:18px;padding:7px 12px;font-size:13px;outline:none;resize:none;max-height:72px;overflow-y:auto;line-height:1.5;font-family:inherit;transition:border-color .2s}
+#aj-inp:focus{border-color:#6c63ff}
+#aj-send{width:34px;height:34px;border-radius:50%;background:#6c63ff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .14s,transform .14s}
+#aj-send:hover{background:#4f46e5;transform:scale(1.06)}
+#aj-send:disabled{background:#ccc;cursor:default;transform:none}
+#aj-send svg{width:15px;height:15px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+#aj-toast{position:fixed;bottom:92px;right:24px;background:#1a1a2e;color:#fff;padding:9px 14px;border-radius:11px;font-size:12px;font-family:inherit;display:none;align-items:center;gap:8px;box-shadow:0 4px 18px rgba(0,0,0,.22);z-index:99998;max-width:210px;animation:aj-slidein .28s ease}
+@keyframes aj-slidein{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
+.aj-tdot2{width:7px;height:7px;border-radius:50%;background:#4ade80;flex-shrink:0}
+@media(max-width:400px){#aj-box{width:calc(100vw - 28px);right:-6px}#aj-chat-wrap{bottom:14px;right:14px}}
+</style>
+
+<div id="aj-toast"><div class="aj-tdot2"></div><span id="aj-toast-txt"></span></div>
+
+<div id="aj-chat-wrap">
+  <div id="aj-box">
+    <div id="aj-head">
+      <div class="aj-hav">AA</div>
+      <div><p class="aj-hname">Ajay A · Portfolio Assistant</p><p class="aj-hsub">AI-powered · real-time</p></div>
+      <div id="aj-online"><div id="aj-ondot"></div><span style="color:rgba(255,255,255,.75);font-size:11px">Online</span></div>
+    </div>
+    <div id="aj-msgs"></div>
+    <div id="aj-sugs">
+      <button class="aj-sug" onclick="ajQuick('What are your skills?')">Skills</button>
+      <button class="aj-sug" onclick="ajQuick('Tell me about your projects')">Projects</button>
+      <button class="aj-sug" onclick="ajQuick('What is your experience?')">Experience</button>
+      <button class="aj-sug" onclick="ajQuick('How can I contact you?')">Contact</button>
+      <button class="aj-sug" onclick="ajQuick('Are you available for hire?')">Hire</button>
+    </div>
+    <div id="aj-foot">
+      <textarea id="aj-inp" rows="1" placeholder="Ask me anything about Ajay…"></textarea>
+      <button id="aj-send" onclick="ajSend()" aria-label="Send">
+        <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
+  </div>
+  <button id="aj-toggle" onclick="ajToggle()" aria-label="Open AI chat">
+    <svg id="aj-ic-chat" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    <svg id="aj-ic-x" viewBox="0 0 24 24" style="display:none"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    <div id="aj-notif"></div>
+  </button>
+</div>
+
+<script>
+(function(){
+  const box=document.getElementById('aj-box'),
+        msgs=document.getElementById('aj-msgs'),
+        inp=document.getElementById('aj-inp'),
+        snd=document.getElementById('aj-send'),
+        notif=document.getElementById('aj-notif'),
+        icChat=document.getElementById('aj-ic-chat'),
+        icX=document.getElementById('aj-ic-x'),
+        toast=document.getElementById('aj-toast'),
+        toastTxt=document.getElementById('aj-toast-txt');
+  let open=false, history=[], busy=false;
+
+  window.ajToggle=function(){
+    open=!open;
+    box.classList.toggle('open',open);
+    icChat.style.display=open?'none':'block';
+    icX.style.display=open?'block':'none';
+    notif.style.display='none';
+    if(open&&!msgs.children.length) ajWelcome();
+    if(open) msgs.scrollTop=msgs.scrollHeight;
+  };
+
+  function ajWelcome(){
+    ajBotBubble("Hi! 👋 I'm Ajay's AI assistant. Ask me about his skills, projects, experience, or how to get in touch!");
+  }
+
+  function ajBotBubble(txt){
+    const row=document.createElement('div'); row.className='aj-row';
+    const av=document.createElement('div'); av.className='aj-av'; av.textContent='AA';
+    const b=document.createElement('div'); b.className='bbl bot'; b.textContent=txt;
+    row.append(av,b); msgs.appendChild(row);
+    msgs.scrollTop=msgs.scrollHeight;
+    return b;
+  }
+
+  function ajUserBubble(txt){
+    const row=document.createElement('div'); row.className='aj-row u';
+    const b=document.createElement('div'); b.className='bbl usr'; b.textContent=txt;
+    row.appendChild(b); msgs.appendChild(row);
+    msgs.scrollTop=msgs.scrollHeight;
+  }
+
+  function showTyping(){
+    const row=document.createElement('div'); row.className='aj-row'; row.id='aj-typing';
+    const av=document.createElement('div'); av.className='aj-av'; av.textContent='AA';
+    const b=document.createElement('div'); b.className='bbl bot';
+    b.innerHTML='<span class="tdot"></span><span class="tdot"></span><span class="tdot"></span>';
+    row.append(av,b); msgs.appendChild(row);
+    msgs.scrollTop=msgs.scrollHeight;
+  }
+  function hideTyping(){ const el=document.getElementById('aj-typing'); if(el) el.remove(); }
+
+  async function ajStream(text){
+    busy=true; snd.disabled=true;
+    showTyping();
+
+    let reply='';
+    try{
+      const res=await fetch('/chatbot/',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({messages:history})
+      });
+      const data=await res.json();
+      if(!res.ok) throw new Error(data.error||'Server error '+res.status);
+      reply=data.reply||'Sorry, I got an empty response.';
+    }catch(err){
+      reply='Error: '+err.message+'. Please check Vercel logs or try again.';
+    }
+
+    hideTyping();
+
+    const bub=ajBotBubble('');
+    const cur=document.createElement('span'); cur.className='aj-cursor';
+    bub.appendChild(cur);
+    let i=0;
+    const iv=setInterval(()=>{
+      if(i<reply.length){
+        bub.textContent=reply.slice(0,++i);
+        bub.appendChild(cur);
+        msgs.scrollTop=msgs.scrollHeight;
+      } else {
+        clearInterval(iv);
+        cur.remove();
+        bub.textContent=reply;
+        history.push({role:'assistant',content:reply});
+        busy=false; snd.disabled=false;
+      }
+    },16);
+  }
+
+    window.ajSend=async function(){
+    const text=inp.value.trim();
+    if(!text||busy) return;
+    inp.value=''; inp.style.height='auto';
+    ajUserBubble(text);
+    history.push({role:'user',content:text});
+    await ajStream(text);
+  };
+
+  window.ajQuick=function(q){
+    if(!open) ajToggle();
+    inp.value=q; ajSend();
+  };
+
+  inp.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();ajSend();}});
+  inp.addEventListener('input',()=>{inp.style.height='auto';inp.style.height=Math.min(inp.scrollHeight,72)+'px';});
+
+
+  // ── Real-time visitor notification (fires 3s after load) ──
+  const toastMsgs=[
+    '👀 Someone just visited your portfolio!',
+    '🌍 A new visitor is here right now!',
+    '💼 Someone is checking out your work!',
+  ];
+  setTimeout(()=>{
+    notif.style.display='block';
+    toastTxt.textContent=toastMsgs[Math.floor(Math.random()*toastMsgs.length)];
+    toast.style.display='flex';
+    setTimeout(()=>{ toast.style.display='none'; },4000);
+  },3000);
+})();
+</script>
+<!-- ═══════════════ END CHATBOT ═══════════════ -->
+
 </body>
 </html>

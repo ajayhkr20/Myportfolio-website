@@ -6,6 +6,7 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('contact/', views.contact_submit, name='contact_submit'),
     path('resume/download/', views.download_resume, name='download_resume'),
+    path('chatbot/', views.chatbot_stream, name='chatbot_stream'),
 
     path('dashboard/', views.dashboard, name='dashboard'),
     path('dashboard/profile/', views.manage_profile, name='manage_profile'),

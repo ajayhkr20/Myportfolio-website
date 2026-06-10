@@ -300,3 +300,118 @@ def crud_delete(request, model_name, pk):
         'cancel_url': 'crud_list',
         'cancel_kwargs': {'model_name': model_name},
     })
+
+# ─────────────────────────────────────────────
+#  AI CHATBOT — returns JSON reply server-side
+#  API key stays on server, works on Vercel
+# ─────────────────────────────────────────────
+import json as _json
+import os as _os
+import urllib.request as _urllib_req
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_exempt
+from decouple import config as _config
+
+AJAY_SYSTEM_PROMPT = """
+You are a friendly AI assistant on Ajay A's personal portfolio website.
+Answer visitor questions warmly and concisely (2-4 sentences) using only the information below.
+Never make up information. If you don't know something, say: "Please reach out to Ajay directly at ajayhkr2002@gmail.com"
+
+=== ABOUT ===
+Name: Ajay A
+Title: Python Developer | Backend | Django | REST APIs
+Location: Kochi, Kerala, India
+Email: ajayhkr2002@gmail.com
+Phone: +91 8270187897
+GitHub: https://github.com/ajayhkr20
+LinkedIn: https://linkedin.com/in/ajaycode
+Summary: Python Developer with 1+ years of experience building backend systems, REST APIs,
+and web applications using Python and Django. Skilled in PostgreSQL, SQL query optimization,
+Docker, and Linux environments. Proficient in Django REST Framework, WebSockets, JWT
+authentication, ORM, database design, and backend system optimization.
+
+=== SKILLS ===
+Languages: Python (primary), SQL, JavaScript
+Frameworks: Django, Django REST Framework, Django Channels, React.js (basic)
+Databases: PostgreSQL, MySQL, SQLite
+Backend & APIs: REST API, WebSockets, JWT, Knox, RBAC, ORM, CRUD
+DevOps & Tools: Docker, Git, GitHub, Linux, Postman, Render, VS Code
+
+=== EXPERIENCE ===
+1. Python Backend Developer (6-month contract) - STC Technologies, Kochi (Sep 2023 - Feb 2024)
+   - Built 10+ REST APIs handling 300+ daily transactions for a financial domain platform
+   - Optimized PostgreSQL queries, reducing API response time by 35%
+   - Implemented Knox token authentication, secure file uploads, and RBAC
+   - Used Git, code reviews, and production deployments on Linux/Docker
+
+2. Python Django Developer - LCC Computer Education, Kochi (Oct 2022 - May 2023)
+   - Built 5+ Django web applications for 50+ student users
+   - Integrated scikit-learn ML modules for classification and prediction
+   - Mentored 10+ students on Django and REST API design
+
+=== PROJECTS ===
+1. Financial Data Processing System - Python, Django REST Framework, PostgreSQL, Knox, Docker, Render
+   40% performance improvement via query optimization. Secure Knox auth and RBAC endpoints.
+
+2. Real-Time Chat Application - Python, Django Channels, WebSockets, Redis, MySQL, Render
+   Supports 100+ concurrent users with Redis channel layer and persistent message history.
+
+=== EDUCATION ===
+- B.Sc Computer Science - Muslim Arts College, Manonmaniam Sundaranar University (2020-2023)
+- Python Django Trainee Certification - Srishti Innovative Computer Systems Pvt. Ltd (Jul 2023 - Feb 2024)
+
+=== AVAILABILITY ===
+Open to full-time backend roles and freelance Django/Python projects.
+For contact questions, always share the email ajayhkr2002@gmail.com and mention the contact form on this page.
+""".strip()
+
+
+@csrf_exempt
+@require_POST
+def chatbot_stream(request):
+    """
+    POST /chatbot/  { "messages": [{role, content}, ...] }
+    Returns:        { "reply": "..." }
+    Works on Vercel (no streaming needed).
+    """
+    try:
+        body = _json.loads(request.body)
+        chat_messages = body.get('messages', [])
+        if not chat_messages:
+            return JsonResponse({'error': 'No messages provided'}, status=400)
+    except (_json.JSONDecodeError, KeyError):
+        return JsonResponse({'error': 'Invalid JSON body'}, status=400)
+
+    api_key = _config('ANTHROPIC_API_KEY', default=_os.environ.get('ANTHROPIC_API_KEY', ''))
+    if not api_key:
+        return JsonResponse({'error': 'ANTHROPIC_API_KEY not configured on server'}, status=500)
+
+    payload = _json.dumps({
+        'model': 'claude-haiku-4-5-20251001',
+        'max_tokens': 400,
+        'system': AJAY_SYSTEM_PROMPT,
+        'messages': chat_messages[-10:],
+    }).encode('utf-8')
+
+    req = _urllib_req.Request(
+        'https://api.anthropic.com/v1/messages',
+        data=payload,
+        headers={
+            'Content-Type': 'application/json',
+            'x-api-key': api_key,
+            'anthropic-version': '2023-06-01',
+        },
+        method='POST',
+    )
+    try:
+        with _urllib_req.urlopen(req, timeout=30) as resp:
+            data = _json.loads(resp.read().decode('utf-8'))
+            reply = ''.join(
+                block.get('text', '')
+                for block in data.get('content', [])
+                if block.get('type') == 'text'
+            )
+            return JsonResponse({'reply': reply})
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=502)
