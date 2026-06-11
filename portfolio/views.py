@@ -556,48 +556,44 @@ RESPONSE STYLE
 * Do not make up skills, projects, or experience.
 * Only answer using the information provided above.
   """
-
 import json
-import google.generativeai as genai
-
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from decouple import config
+from google import genai as google_genai
 
-genai.configure(api_key=config("GEMINI_API_KEY"))
-
-model = genai.GenerativeModel("gemini-2.5-flash")
+GEMINI_API_KEY = config("GEMINI_API_KEY", default="")
+gemini_client = google_genai.Client(api_key=GEMINI_API_KEY) if GEMINI_API_KEY else None
 
 @csrf_exempt
 @require_POST
 def chatbot_stream(request):
     try:
+        if not gemini_client:
+            return JsonResponse({"error": "Gemini API key not configured"}, status=500)
+
         body = json.loads(request.body)
         messages = body.get("messages", [])
 
         if not messages:
-                return JsonResponse(
-                    {"error": "No messages provided"},
-                    status=400
-                )
+            return JsonResponse({"error": "No messages provided"}, status=400)
 
         user_message = messages[-1]["content"]
 
         prompt = f"""
-
         {AJAY_SYSTEM_PROMPT}
 
         Visitor Question:
         {user_message}
         """
-        response = model.generate_content(prompt)
 
-        return JsonResponse({
-                "reply": response.text
-            })
+        response = gemini_client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=prompt
+        )
+
+        return JsonResponse({"reply": response.text})
 
     except Exception as e:
-        return JsonResponse({
-            "error": str(e)
-        }, status=500)
+        return JsonResponse({"error": str(e)}, status=500)
