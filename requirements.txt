@@ -11,13 +11,12 @@ distro==1.9.0
 dj-database-url==3.1.2
 Django==5.2.14
 django-cloudinary-storage==0.3.0
-git-filter-repo==2.47.0
 google-ai-generativelanguage==0.6.15
 google-api-core==2.31.0
 google-api-python-client==2.197.0
 google-auth==2.53.0
 google-auth-httplib2==0.4.0
-google-generativeai==0.8.6
+google-genai==2.8.0
 googleapis-common-protos==1.75.0
 grpcio==1.81.0
 grpcio-status==1.71.2
