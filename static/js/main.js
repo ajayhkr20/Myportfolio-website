@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Typed hero title
     const titleEl = document.querySelector('.hero-title');
     if (titleEl) {
-        const titles = [titleEl.textContent.trim(), 'Backend Developer', 'Django Specialist', 'REST API Engineer'];
+        const titles = [titleEl.textContent.trim(),'Python Full Stack developer', 'Backend Developer', 'Django Specialist', 'Software Engineer'];
         let ti = 0, ci = 0, del = false;
         function type() {
             const cur = titles[ti];
