@@ -110,68 +110,85 @@
 </div>
 
 <div id="aj-chat-wrap">
+
   <div id="aj-box">
+
+    <!-- Header -->
     <div id="aj-head">
       <div class="aj-hav">AA</div>
+
       <div>
         <div class="aj-hname">Ajay A · Portfolio Assistant</div>
         <div class="aj-hsub">AI-powered · real-time</div>
       </div>
+
       <div style="margin-left:auto;display:flex;align-items:center;gap:6px">
         <div id="aj-ondot"></div>
         <span class="aj-onlbl">Online</span>
-        <button id="aj-close-btn" onclick="ajToggle()" aria-label="Close chat">
-          <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+
+        <button
+          id="aj-close-btn"
+          onclick="ajToggle()"
+          aria-label="Close chat">
+          <svg viewBox="0 0 24 24">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
         </button>
       </div>
     </div>
 
+
+    <!-- Messages -->
     <div id="aj-msgs"></div>
 
-    <div id="aj-sugs">
-    <!-- Personal -->
-      <button class="aj-sug" onclick="ajQuick('Who is Ajay A?')">About Ajay</button>
-      <button class="aj-sug" onclick="ajQuick('Where is Ajay located?')">Location</button>
-      <button class="aj-sug" onclick="ajQuick('What is Ajay\'s career goal?')">Career goal</button>
-    
-      <!-- Skills -->
-      <button class="aj-sug" onclick="ajQuick('What are Ajay\'s technical skills?')">Tech skills</button>
-      <button class="aj-sug" onclick="ajQuick('What backend technologies does Ajay use?')">Backend</button>
-      <button class="aj-sug" onclick="ajQuick('What databases has Ajay worked with?')">Databases</button>
-      <button class="aj-sug" onclick="ajQuick('What DevOps tools does Ajay know?')">DevOps</button>
 
-      <!-- Experience -->
-      <button class="aj-sug" onclick="ajQuick('What is Ajay\'s professional experience?')">Experience</button>
-      <button class="aj-sug" onclick="ajQuick('Tell me about Ajay\'s work at STC Technologies')">STC Technologies</button>
-      <button class="aj-sug" onclick="ajQuick('Tell me about Ajay\'s work at LCC Technologies')">LCC Technologies</button>
-
-      <!-- Projects -->
-      <button class="aj-sug" onclick="ajQuick('What projects has Ajay built?')">All projects</button>
-      <button class="aj-sug" onclick="ajQuick('Tell me about the financial data processing system')">Finance system</button>
-      <button class="aj-sug" onclick="ajQuick('Tell me about the real-time chat application')">Chat app</button>
-
-      <!-- Background -->
-      <button class="aj-sug" onclick="ajQuick('What is Ajay\'s educational background?')">Education</button>
-      <button class="aj-sug" onclick="ajQuick('What certifications does Ajay have?')">Certification</button>
-
-      <!-- Hiring -->
-      <button class="aj-sug" onclick="ajQuick('Is Ajay available for hire?')">Available for hire?</button>
-      <button class="aj-sug" onclick="ajQuick('How can I contact Ajay?')">Contact</button>
-    </div>
-
+    <!-- Input -->
     <div id="aj-foot">
-      <textarea id="aj-inp" rows="1" placeholder="Ask me anything about Ajay…"></textarea>
-      <button id="aj-send" onclick="ajSend()" aria-label="Send">
-        <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      <textarea
+        id="aj-inp"
+        rows="1"
+        placeholder="Ask me anything about Ajay…"></textarea>
+
+      <button
+        id="aj-send"
+        onclick="ajSend()"
+        aria-label="Send">
+
+        <svg viewBox="0 0 24 24">
+          <line x1="22" y1="2" x2="11" y2="13"/>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+
       </button>
     </div>
+
   </div>
 
-  <button id="aj-toggle" onclick="ajToggle()" aria-label="Open AI chat">
-    <svg id="aj-ic-chat" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-    <svg id="aj-ic-x" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+
+  <!-- Floating Chat Button -->
+  <button
+    id="aj-toggle"
+    onclick="ajToggle()"
+    aria-label="Open AI chat">
+
+    <svg
+      id="aj-ic-chat"
+      viewBox="0 0 24 24">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+    </svg>
+
+    <svg
+      id="aj-ic-x"
+      viewBox="0 0 24 24">
+      <line x1="18" y1="6" x2="6" y2="18"/>
+      <line x1="6" y1="6" x2="18" y2="18"/>
+    </svg>
+
     <div id="aj-notif"></div>
+
   </button>
+
 </div>
 
 <script>
