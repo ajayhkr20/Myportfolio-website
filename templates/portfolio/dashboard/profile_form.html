@@ -11,10 +11,13 @@
         <label for="{{ field.id_for_label }}">{{ field.label }}</label>
         {{ field }}
         {% if field.errors %}<span class="field-error">{{ field.errors.0 }}</span>{% endif %}
+<<<<<<< HEAD
         {% if field.name == 'profile_photo' and form.instance.profile_photo %}
         <p class="form-hint">Current profile photo:</p>
         <img src="{{ form.instance.profile_photo.url }}" alt="Current profile photo" class="profile-photo-preview">
         {% endif %}
+=======
+>>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
         {% if field.name == 'resume' and form.instance.resume %}
         <p class="form-hint">Current: <a href="{{ form.instance.resume.url }}" target="_blank">{{ form.instance.resume.name }}</a></p>
         {% endif %}

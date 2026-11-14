@@ -6,9 +6,12 @@
 
 <form method="post" enctype="multipart/form-data" class="dash-form">
     {% csrf_token %}
+<<<<<<< HEAD
     {% for error in field_errors|get_item:'__all__' %}
     <div class="alert alert-error">{{ error }}</div>
     {% endfor %}
+=======
+>>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
     {% for field in fields %}
     <div class="form-group">
         <label for="{{ field }}">{{ field|title }}</label>
@@ -25,9 +28,12 @@
         {% else %}
         <input type="text" name="{{ field }}" id="{{ field }}" class="form-control" value="{{ field_values|get_item:field }}">
         {% endif %}
+<<<<<<< HEAD
         {% for error in field_errors|get_item:field %}
         <span class="field-error">{{ error }}</span>
         {% endfor %}
+=======
+>>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
     </div>
     {% endfor %}
     <div class="dash-actions">

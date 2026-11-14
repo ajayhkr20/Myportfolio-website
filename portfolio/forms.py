@@ -1,6 +1,10 @@
 from django import forms
 from django.contrib.auth.models import User
+<<<<<<< HEAD
 from .models import ContactMessage, Profile, Skill, SkillCategory
+=======
+from .models import ContactMessage, Profile
+>>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
 
 
 class ContactForm(forms.ModelForm):
@@ -49,6 +53,7 @@ class ProfileForm(forms.ModelForm):
         }
 
 
+<<<<<<< HEAD
 class SkillCategoryForm(forms.ModelForm):
     class Meta:
         model = SkillCategory
@@ -70,6 +75,8 @@ class SkillForm(forms.ModelForm):
         }
 
 
+=======
+>>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
 class UserCreateForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
     password_confirm = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}), label='Confirm password')

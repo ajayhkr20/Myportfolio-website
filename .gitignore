@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
 # Python
 __pycache__/
 *.py[cod]
@@ -24,8 +27,11 @@ local_settings.py
 
 # Environment Variables
 .env
+<<<<<<< HEAD
 .env.*
 !.env.example
+=======
+>>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
 
 # IDE
 .vscode/
@@ -34,4 +40,8 @@ local_settings.py
 
 # OS
 .DS_Store
+<<<<<<< HEAD
 Thumbs.db
+=======
+Thumbs.db
+>>>>>>> 07de66dde5064f8633f14e637dc81016f6857888

@@ -3,7 +3,10 @@ import os
 import dj_database_url
 from decouple import config
 
+<<<<<<< HEAD
 GOOGLE_CLOUD_API_KEY = config("GOOGLE_CLOUD_API_KEY", default="")
+=======
+>>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-dev-key-change-in-production')
@@ -34,7 +37,10 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+<<<<<<< HEAD
     'portfolio.middleware.BlockedVisitorMiddleware',
+=======
+>>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -110,6 +116,7 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': config('CLOUDINARY_API_SECRET', default=''),
 }
 
+<<<<<<< HEAD
 CLOUDINARY_CONFIGURED = all(
     value and not value.lower().startswith(('your-', 'replace-'))
     for value in CLOUDINARY_STORAGE.values()
@@ -122,6 +129,11 @@ STORAGES = {
             if CLOUDINARY_CONFIGURED
             else 'django.core.files.storage.FileSystemStorage'
         ),
+=======
+STORAGES = {
+    'default': {
+        'BACKEND': 'cloudinary_storage.storage.MediaCloudinaryStorage',
+>>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
     },
     'staticfiles': {
         'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',

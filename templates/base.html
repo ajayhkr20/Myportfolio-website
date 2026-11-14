@@ -11,6 +11,7 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     {% block extra_css %}{% endblock %}
+<<<<<<< HEAD
     <script>
         (() => {
             try {
@@ -21,6 +22,8 @@
             }
         })();
     </script>
+=======
+>>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
 </head>
 <body>
     {% if messages %}
@@ -35,7 +38,10 @@
 
     <script src="{% static 'js/main.js' %}"></script>
     {% block extra_js %}{% endblock %}
+<<<<<<< HEAD
 {% block portfolio_chatbot %}
+=======
+>>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
 <!-- ═══════════════════════════════════════════════
      AJAY'S PORTFOLIO AI CHATBOT — Redesigned v2
      Real-time streaming · Responsive · Modern UI
@@ -48,6 +54,12 @@
 #aj-toggle:hover{transform:scale(1.07);box-shadow:0 8px 32px rgba(91,80,240,.5)}
 #aj-toggle svg{width:24px;height:24px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 #aj-ic-x{display:none}
+<<<<<<< HEAD
+=======
+#aj-notif{position:absolute;top:4px;right:4px;width:12px;height:12px;background:#f43f5e;border:2px solid #fff;border-radius:50%;display:none;animation:aj-pulse 2s infinite}
+@keyframes aj-pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.3);opacity:.7}}
+
+>>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
 /* Chat box */
 #aj-box{position:absolute;bottom:68px;right:0;width:340px;background:#ffffff;border-radius:20px;border:1px solid rgba(0,0,0,.07);box-shadow:0 20px 60px rgba(0,0,0,.13),0 4px 16px rgba(0,0,0,.06);display:none;flex-direction:column;overflow:hidden;height:490px}
 #aj-box.open{display:flex;animation:aj-popin .2s cubic-bezier(.34,1.36,.64,1)}
@@ -96,15 +108,27 @@
 #aj-send:disabled{background:#c8cbdc;cursor:default;transform:none}
 #aj-send svg{width:14px;height:14px;fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transform:translateX(1px)}
 
+<<<<<<< HEAD
+=======
+/* Toast notification */
+#aj-toast{position:fixed;bottom:92px;right:24px;background:#1a1a2e;color:#fff;padding:10px 14px;border-radius:14px;font-size:12px;font-family:inherit;display:none;align-items:center;gap:8px;box-shadow:0 6px 20px rgba(0,0,0,.2);z-index:99998;max-width:220px}
+.aj-tdot2{width:8px;height:8px;border-radius:50%;background:#4ade80;flex-shrink:0;animation:aj-pulse 2s infinite}
+
+>>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
 /* Responsive */
 @media(max-width:400px){
   #aj-box{width:calc(100vw - 32px);right:-4px;height:calc(100dvh - 100px);max-height:520px}
   #aj-chat-wrap{bottom:16px;right:16px}
   #aj-toggle{width:52px;height:52px}
+<<<<<<< HEAD
+=======
+  #aj-toast{right:16px;bottom:84px}
+>>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
 }
 @media(max-height:600px){
   #aj-box{height:calc(100dvh - 90px)}
 }
+<<<<<<< HEAD
 
 #aj-toggle,#aj-head,.aj-av,#aj-send,.bbl.usr{background:var(--primary)}
 #aj-toggle:hover,#aj-send:hover{background:var(--primary-hover)}
@@ -123,6 +147,14 @@
 </style>
 
 {% if chatbot_welcome %}{{ chatbot_welcome|json_script:"aj-chat-welcome" }}{% endif %}
+=======
+</style>
+
+<div id="aj-toast">
+  <div class="aj-tdot2"></div>
+  <span id="aj-toast-txt"></span>
+</div>
+>>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
 
 <div id="aj-chat-wrap">
 
@@ -200,6 +232,11 @@
       <line x1="6" y1="6" x2="18" y2="18"/>
     </svg>
 
+<<<<<<< HEAD
+=======
+    <div id="aj-notif"></div>
+
+>>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
   </button>
 
 </div>
@@ -210,10 +247,18 @@
         msgs=document.getElementById('aj-msgs'),
         inp=document.getElementById('aj-inp'),
         snd=document.getElementById('aj-send'),
+<<<<<<< HEAD
         icChat=document.getElementById('aj-ic-chat'),
         icX=document.getElementById('aj-ic-x');
   const welcomeData=document.getElementById('aj-chat-welcome');
   const welcomeText=welcomeData?JSON.parse(welcomeData.textContent):"Hi! Ask me about Ajay's portfolio.";
+=======
+        notif=document.getElementById('aj-notif'),
+        icChat=document.getElementById('aj-ic-chat'),
+        icX=document.getElementById('aj-ic-x'),
+        toast=document.getElementById('aj-toast'),
+        toastTxt=document.getElementById('aj-toast-txt');
+>>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
   let open=false,history=[],busy=false;
 
   window.ajToggle=function(){
@@ -221,12 +266,20 @@
     box.classList.toggle('open',open);
     icChat.style.display=open?'none':'block';
     icX.style.display=open?'block':'none';
+<<<<<<< HEAD
+=======
+    notif.style.display='none';
+>>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
     if(open&&!msgs.children.length) ajWelcome();
     if(open) setTimeout(()=>msgs.scrollTop=msgs.scrollHeight,50);
   };
 
   function ajWelcome(){
+<<<<<<< HEAD
     ajBotBubble(welcomeText);
+=======
+    ajBotBubble("Hi! 👋 I'm Ajay's AI assistant.\n\nAsk me about his Skills, Projects, Experience, Education, Certifications, or how to Contact him.");
+>>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
   }
 
   function ajBotBubble(txt){
@@ -313,10 +366,28 @@
   inp.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();ajSend();}});
   inp.addEventListener('input',()=>{inp.style.height='auto';inp.style.height=Math.min(inp.scrollHeight,72)+'px';});
 
+<<<<<<< HEAD
 })();
 </script>
 <!-- ═══════════════ END CHATBOT ═══════════════ -->
 {% endblock %}
+=======
+  // Visitor toast after 3s
+  const toastMsgs=[
+    '👀 Someone just visited your portfolio!',
+    '🌍 A new visitor is here right now!',
+    '💼 Someone is checking out your work!',
+  ];
+  setTimeout(()=>{
+    notif.style.display='block';
+    toastTxt.textContent=toastMsgs[Math.floor(Math.random()*toastMsgs.length)];
+    toast.style.display='flex';
+    setTimeout(()=>{toast.style.display='none';},4500);
+  },3000);
+})();
+</script>
+<!-- ═══════════════ END CHATBOT ═══════════════ -->
+>>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
 
 </body>
 </html>

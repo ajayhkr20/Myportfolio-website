@@ -1,4 +1,8 @@
 from django.core.management.base import BaseCommand
+<<<<<<< HEAD
+=======
+from django.contrib.auth.models import User
+>>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
 from portfolio.models import Profile, SkillCategory, Skill, Experience, Project, Education
 
 
@@ -6,6 +10,13 @@ class Command(BaseCommand):
     help = 'Load initial portfolio data from resume'
 
     def handle(self, *args, **options):
+<<<<<<< HEAD
+=======
+        if not User.objects.filter(username='admin').exists():
+            User.objects.create_superuser('admin', 'ajayhkr2002@gmail.com', 'admin123')
+            self.stdout.write(self.style.SUCCESS('Created admin user (admin / admin123)'))
+
+>>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
         profile, created = Profile.objects.get_or_create(
             pk=1,
             defaults={

@@ -1,7 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
+<<<<<<< HEAD
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
+=======
+>>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
 
 
 class Profile(models.Model):
@@ -81,6 +84,7 @@ class Project(models.Model):
     class Meta:
         ordering = ['order', '-id']
 
+<<<<<<< HEAD
     def clean(self):
         super().clean()
         validate_url = URLValidator(schemes=['http', 'https'])
@@ -95,6 +99,8 @@ class Project(models.Model):
         if errors:
             raise ValidationError(errors)
 
+=======
+>>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
     def __str__(self):
         return self.title
 
@@ -140,6 +146,7 @@ class SiteVisitor(models.Model):
 
     def __str__(self):
         return f'{self.ip_address or "Unknown"} - {self.visited_at:%Y-%m-%d %H:%M}'
+<<<<<<< HEAD
 
 
 class BlockedVisitor(models.Model):
@@ -151,3 +158,5 @@ class BlockedVisitor(models.Model):
 
     def __str__(self):
         return self.ip_address
+=======
+>>>>>>> 07de66dde5064f8633f14e637dc81016f6857888

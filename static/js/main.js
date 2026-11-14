@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+<<<<<<< HEAD
     // Keep the theme control consistent on the portfolio and dashboard.
     const themeToggle = document.getElementById('themeToggle');
     const updateThemeToggle = () => {
@@ -34,12 +35,23 @@ document.addEventListener('DOMContentLoaded', () => {
         navToggle?.setAttribute('aria-expanded', 'false');
         navToggle?.setAttribute('aria-label', 'Open navigation menu');
     }));
+=======
+    // Nav toggle
+    const navToggle = document.getElementById('navToggle');
+    const navLinks  = document.getElementById('navLinks');
+    navToggle?.addEventListener('click', () => navLinks?.classList.toggle('open'));
+    navLinks?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+>>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
 
     // Navbar scroll opacity
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {
         if (navbar) navbar.style.background = window.scrollY > 50
+<<<<<<< HEAD
             ? 'var(--nav-bg-scrolled)' : 'var(--nav-bg)';
+=======
+            ? 'rgba(15,17,23,0.98)' : 'rgba(15,17,23,0.88)';
+>>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
     }, { passive: true });
 
     // Active nav link
