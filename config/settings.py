@@ -1,12 +1,9 @@
 from pathlib import Path
 import os
 import dj_database_url
-from decouple import config
-
-<<<<<<< HEAD
+from decouple import config         
 GOOGLE_CLOUD_API_KEY = config("GOOGLE_CLOUD_API_KEY", default="")
-=======
->>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-dev-key-change-in-production')
