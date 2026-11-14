@@ -10,14 +10,7 @@
 {% block body %}
 <nav class="navbar" id="navbar">
     <div class="container nav-inner">
-<<<<<<< HEAD
         <a href="#home" class="logo">{{ profile.name|default:"AJAY A" }}</a>
-=======
-        <a href="{% url 'login' %}" class="logo">{{ profile.name|default:"AJAY A" }}</a>
-        <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
-            <span></span><span></span><span></span>
-        </button>
->>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
         <ul class="nav-links" id="navLinks">
             <li><a href="#home">Home</a></li>
             <li><a href="#about">About</a></li>
@@ -30,7 +23,6 @@
             <li><a href="{% url 'download_resume' %}" class="btn btn-sm btn-outline">Resume</a></li>
             {% endif %}
         </ul>
-<<<<<<< HEAD
         <div class="nav-actions">
             <button class="theme-toggle theme-toggle-portfolio" id="themeToggle" type="button" aria-label="Switch to light theme" aria-pressed="false">
                 <i class="fas fa-sun theme-icon-light" aria-hidden="true"></i>
@@ -40,8 +32,6 @@
                 <span></span><span></span><span></span>
             </button>
         </div>
-=======
->>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
     </div>
 </nav>
 
@@ -53,11 +43,7 @@
             <p class="hero-greeting">Hello, I'm</p>
             <h1 class="hero-name">{{ profile.name|default:"AJAY A" }}</h1>
             <p class="hero-title">{{ profile.title|default:"Python Developer" }}</p>
-<<<<<<< HEAD
             <p class="hero-summary">{{ profile.summary|default:"Python Developer specializing in Django, REST APIs, PostgreSQL, and backend development." }}</p>
-=======
-            <p class="hero-summary">{{"Python Developer specializing in Django, REST APIs, PostgreSQL, and backend development. Experienced in building scalable web applications, optimizing databases, and deploying production-ready solutions." }}</p>
->>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
             <div class="hero-actions">
                 <a href="#contact" class="btn btn-primary">Hire Me</a>
                 {% if profile.resume %}
@@ -76,7 +62,6 @@
         </div>
         <div class="hero-visual">
             <div class="hero-card">
-<<<<<<< HEAD
                 <div class="hero-photo-frame">
                     {% if profile and profile.profile_photo %}
                     <img src="{{ profile.profile_photo.url }}" alt="{{ profile.name }}" class="hero-photo">
@@ -88,17 +73,6 @@
                     <p class="hero-card-designation">Software Engineer</p>
                     <h2 class="hero-card-name">{{ profile.name|default:"Ajay A" }}</h2>
                     <p class="hero-card-location"><i class="fas fa-location-dot" aria-hidden="true"></i> {{ profile.location|default:"Kochi, Kerala" }}</p>
-=======
-                {% if profile.profile_photo %}
-                <img src="{{ profile.profile_photo.url }}" alt="{{ profile.name }}" class="hero-photo">
-                {% else %}
-                <div class="hero-avatar">{{ profile.name|default:"A"|slice:":1" }}</div>
-                {% endif %}
-                <div class="hero-meta">
-                    <span><strong>Location</strong>{{ profile.location|default:"Kochi, Kerala" }}</span>
-                    <span><strong>Phone</strong>{{ profile.phone|default:"+91 8270197997" }}</span>
-                    <span><strong>Email</strong>{{ profile.email|default:"ajayhkr2002@gmail.com" }}</span>
->>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
                 </div>
             </div>
         </div>
@@ -108,7 +82,6 @@
 <!-- ── ABOUT ── -->
 <section id="about" class="about-section">
     <div class="about-container">
-<<<<<<< HEAD
         <div class="about-intro reveal">
             <span class="about-label">ABOUT ME</span>
             <h2 class="about-title">Building intelligent &amp; scalable applications with <span>Python, Django, React &amp; AI</span></h2>
@@ -157,61 +130,6 @@
                 <p><strong>My vision</strong> is to build innovative, intelligent, and scalable applications by combining modern web technologies with the power of Artificial Intelligence.</p>
             </div>
         </div>
-=======
-
-        <span class="about-label reveal">ABOUT ME</span>
-
-        <h2 class="about-title reveal">
-            Building Modern Web Applications
-            <br>
-            with <span>Python & Django</span>
-        </h2>
-
-        <p class="about-description reveal">
-            {{ profile.summary }}
-        </p>
-
-        <p class="about-highlight reveal">
-            Passionate about developing efficient, scalable, and user-friendly web applications.
-            Experienced in building real-world projects including e-commerce platforms, job portals,
-            emergency service systems, and custom management applications using Django and modern web technologies.
-        </p>
-
-        <div class="about-skills reveal">
-            <span>Python</span>
-            <span>Django</span>
-            <span>REST API</span>
-            <span>MySQL</span>
-            <span>HTML5</span>
-            <span>CSS3</span>
-            <span>JavaScript</span>
-            <span>Bootstrap</span>
-            <span>Git & GitHub</span>
-            <span>Responsive Design</span>
-            <span>Problem Solving</span>
-            <span>Team Collaboration</span>
-        </div>
-
-        <div class="about-bottom reveal">
-
-            <div class="stat-box">
-                <h3>15+</h3>
-                <p>Projects Completed</p>
-            </div>
-
-            <div class="stat-box">
-                <h3>5+</h3>
-                <p>Major Django Applications</p>
-            </div>
-
-            <div class="stat-box">
-                <h3>10+</h3>
-                <p>Technologies & Tools</p>
-            </div>
-
-        </div>
-
->>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
     </div>
 </section>
 
@@ -229,15 +147,10 @@
             <div class="skill-card reveal">
 
                 <div class="skill-header">
-<<<<<<< HEAD
                     <div class="skill-category-name">
                         <span class="skill-category-mark" aria-hidden="true"><i class="fas fa-layer-group"></i></span>
                         <h3>{{ category.name }}</h3>
                     </div>
-=======
-                    <h3>{{ category.name }}</h3>
-
->>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
                 </div>
 
                 <div class="skill-tags">
@@ -369,7 +282,6 @@
 </section>
 
 <!-- ── CONTACT ── -->
-<<<<<<< HEAD
 <section class="section section-alt contact-section" id="contact">
     <div class="container">
         <div class="section-head-wrap reveal">
@@ -396,31 +308,10 @@
                     <span class="contact-item-icon"><i class="fas fa-location-dot" aria-hidden="true"></i></span>
                     <span><strong>Location</strong>
                     <span>{{ profile.location|default:"Kochi, Kerala" }}</span></span>
-=======
-<section class="section section-alt" id="contact">
-    <div class="container">
-        <div class="section-head-wrap reveal">
-            <h2 class="section-title">Get In Touch</h2>
-            <p class="section-subtitle">Open to freelance, part-time, and full-time opportunities. Let's connect and build something great together.</p>        </div>
-        <div class="contact-grid">
-            <div class="contact-info reveal">
-                <div class="contact-item">
-                    <strong>Email</strong>
-                    <a href="mailto:{{ profile.email|default:'ajayhkr2002@gmail.com' }}">{{ profile.email|default:"ajayhkr2002@gmail.com" }}</a>
-                </div>
-                <div class="contact-item">
-                    <strong>Phone</strong>
-                    <a href="tel:{{ profile.phone|default:'+918270197997' }}">{{ profile.phone|default:"+91 8270197997" }}</a>
-                </div>
-                <div class="contact-item">
-                    <strong>Location</strong>
-                    <span>{{ profile.location|default:"Kochi, Kerala" }}</span>
->>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
                 </div>
             </div>
             <form method="post" action="{% url 'contact_submit' %}" class="contact-form reveal reveal-d1">
                 {% csrf_token %}
-<<<<<<< HEAD
                 <div class="contact-form-heading">
                     <h3>Send a message</h3>
                     <p>Fields marked below are required.</p>
@@ -444,15 +335,6 @@
                     {{ contact_form.message }}
                 </div>
                 <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-paper-plane" aria-hidden="true"></i> Send Message</button>
-=======
-                <div class="form-row">
-                    <div class="form-group">{{ contact_form.name }}</div>
-                    <div class="form-group">{{ contact_form.email }}</div>
-                </div>
-                <div class="form-group">{{ contact_form.subject }}</div>
-                <div class="form-group">{{ contact_form.message }}</div>
-                <button type="submit" class="btn btn-primary btn-block">Send Message</button>
->>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
             </form>
         </div>
     </div>

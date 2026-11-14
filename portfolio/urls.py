@@ -10,21 +10,15 @@ urlpatterns = [
 
     path('dashboard/', views.dashboard, name='dashboard'),
     path('dashboard/profile/', views.manage_profile, name='manage_profile'),
-<<<<<<< HEAD
     path('dashboard/skills/', views.skill_manager, name='skill_manager'),
     path('dashboard/skills/add/', views.skill_create, name='skill_create'),
     path('dashboard/skills/<int:pk>/edit/', views.skill_edit, name='skill_edit'),
     path('dashboard/skills/<int:pk>/delete/', views.skill_delete, name='skill_delete'),
-=======
->>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
     path('dashboard/messages/', views.message_list, name='message_list'),
     path('dashboard/messages/<int:pk>/', views.message_detail, name='message_detail'),
     path('dashboard/messages/<int:pk>/delete/', views.message_delete, name='message_delete'),
     path('dashboard/visitors/', views.visitor_list, name='visitor_list'),
-<<<<<<< HEAD
     path('dashboard/visitors/block/', views.toggle_visitor_block, name='toggle_visitor_block'),
-=======
->>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
     path('dashboard/users/', views.user_list, name='user_list'),
     path('dashboard/users/add/', views.user_create, name='user_create'),
     path('dashboard/users/<int:pk>/edit/', views.user_edit, name='user_edit'),

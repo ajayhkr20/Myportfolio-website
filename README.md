@@ -9,13 +9,9 @@ Professional, mobile-responsive portfolio built with Django. Includes admin dash
 - **Resume upload & download** — Upload PDF from dashboard; visitors can download
 - **Admin dashboard** — Manage profile, experience, projects, education
 - **User management** — Create, edit, delete staff users
-<<<<<<< HEAD
 - **Visitor tracking** — Record homepage visits; logs are available only to signed-in staff in the dashboard
 - **Visitor blocking** — Block or unblock visitor IP addresses from the staff dashboard
 - **Portfolio assistant** — Public chat assistant uses the current profile, skills, projects, experience, and education data
-=======
-- **Visitor tracking** — View who visited your site
->>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
 - **Fully responsive** — Works on mobile, tablet, and desktop
 
 ## Quick Start
@@ -33,10 +29,7 @@ pip install -r requirements.txt
 # Run migrations and load resume data
 python manage.py migrate
 python manage.py load_initial_data
-<<<<<<< HEAD
 python manage.py createsuperuser
-=======
->>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
 
 # Start server
 python manage.py runserver
@@ -52,11 +45,7 @@ Open **http://127.0.0.1:8000** for the portfolio.
 | `/dashboard/` | Admin panel |
 | `/admin/` | Django admin |
 
-<<<<<<< HEAD
 Create your own administrator account with `python manage.py createsuperuser`. No default administrator credentials are created.
-=======
-**Default credentials:** `admin` / `admin123` (change after first login)
->>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
 
 ## Email Setup (Production)
 
@@ -71,7 +60,6 @@ For Gmail: Google Account → Security → 2-Step Verification → App passwords
 
 In development (`DEBUG=True`), emails print to the console instead of sending.
 
-<<<<<<< HEAD
 The example file contains placeholders only. If credentials from an older version were used, revoke and rotate them before deploying.
 
 Uploads use local `media/` storage when Cloudinary credentials are not configured.
@@ -86,15 +74,6 @@ For persistent uploads in production, set all three `CLOUDINARY_CLOUD_NAME`,
 4. **Messages** — View contact form submissions
 5. **Visitors** — See site visitor logs and block or unblock visitor IP addresses
 6. **Appearance** — Switch between dark and light themes; the selection is saved in this browser
-=======
-## Dashboard Guide
-
-1. **Profile & Resume** — Update info, upload profile photo and resume PDF
-2. **Experience / Projects / Education** — Full CRUD (Create, Read, Update, Delete)
-3. **Messages** — View contact form submissions
-4. **Visitors** — See site visitor logs
-5. **Users** — Manage admin users
->>>>>>> 07de66dde5064f8633f14e637dc81016f6857888
 
 ## Tech Stack
 
@@ -115,12 +94,9 @@ gunicorn config.wsgi:application
 ```
 
 Set `DEBUG=False`, `SECRET_KEY`, and email env vars in production.
-<<<<<<< HEAD
 Configure a persistent PostgreSQL `DATABASE_URL` for production so visitor logs,
 blocked IPs, and portfolio updates survive redeployments. File uploads also need
 persistent media storage such as the configured Cloudinary integration. The
 dashboard visitor page records homepage visits and provides IP block/unblock
 controls; IP blocking applies to the address seen by the server, so shared or
 changing network addresses may affect multiple visitors or require a new block.
-=======
->>>>>>> 07de66dde5064f8633f14e637dc81016f6857888

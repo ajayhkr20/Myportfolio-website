@@ -10,7 +10,9 @@ from django.test import TestCase, override_settings
 from django.urls import reverse
 from PIL import Image
 
-from .models import BlockedVisitor, Profile, Project, SiteVisitor, Skill, SkillCategory
+from .models import (
+    BlockedVisitor, Education, Experience, Profile, Project, SiteVisitor, Skill, SkillCategory,
+)
 
 
 class VisitorAccessTests(TestCase):
@@ -101,7 +103,7 @@ class VisitorAccessTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, 'aj-chat-wrap')
 
-    def test_chatbot_welcome_uses_current_profile_information(self):
+    def test_chatbot_welcome_is_short_and_points_to_live_profile_data(self):
         Profile.objects.create(
             name='Ajay Updated',
             title='Django Developer',
@@ -113,11 +115,15 @@ class VisitorAccessTests(TestCase):
 
         response = self.client.get(reverse('home'))
 
-        self.assertContains(response, 'Updated profile summary for the assistant.')
-        self.assertContains(response, 'Django Developer')
+        self.assertContains(response, "Ajay Updated's portfolio assistant")
+        self.assertContains(response, 'skills, projects, experience, or education')
+        self.assertNotIn(
+            'Updated profile summary for the assistant.',
+            response.context['chatbot_welcome'],
+        )
 
     @patch('portfolio.views.gemini_client')
-    def test_chatbot_answers_using_current_profile_information(self, gemini_client):
+    def test_chatbot_uses_latest_dashboard_data_and_recent_context(self, gemini_client):
         Profile.objects.create(
             name='Ajay Updated',
             title='Django Developer',
@@ -126,11 +132,33 @@ class VisitorAccessTests(TestCase):
             phone='+91 1234567890',
             location='Kochi',
         )
+        category = SkillCategory.objects.create(name='Backend')
+        Skill.objects.create(category=category, name='Django REST Framework')
+        Experience.objects.create(
+            company='Updated Company',
+            role='Backend Developer',
+            start_date='2024',
+            description='Built updated API workflows.',
+        )
+        Project.objects.create(
+            title='Updated Portfolio API',
+            description='A live dashboard-managed project.',
+            tech_stack='Python, Django',
+        )
+        Education.objects.create(
+            degree='Updated Computer Science Degree',
+            institution='Updated University',
+            period='2020-2023',
+        )
         gemini_client.models.generate_content.return_value.text = 'Updated answer'
 
         response = self.client.post(
             reverse('chatbot_stream'),
-            data=json.dumps({'messages': [{'role': 'user', 'content': 'Tell me about Ajay.'}]}),
+            data=json.dumps({'messages': [
+                {'role': 'user', 'content': 'What framework does Ajay use?'},
+                {'role': 'assistant', 'content': 'He uses Django.'},
+                {'role': 'user', 'content': 'Tell me about the latest project.'},
+            ]}),
             content_type='application/json',
         )
 
@@ -139,6 +167,50 @@ class VisitorAccessTests(TestCase):
         prompt = gemini_client.models.generate_content.call_args.kwargs['contents']
         self.assertIn('Updated profile summary for the assistant.', prompt)
         self.assertIn('Ajay Updated', prompt)
+        self.assertIn('Django REST Framework', prompt)
+        self.assertIn('Updated Company', prompt)
+        self.assertIn('Updated Portfolio API', prompt)
+        self.assertIn('Updated Computer Science Degree', prompt)
+        self.assertIn('What framework does Ajay use?', prompt)
+        config = gemini_client.models.generate_content.call_args.kwargs['config']
+        self.assertEqual(config.thinking_config.thinking_budget, 0)
+        self.assertEqual(config.max_output_tokens, 350)
+
+    @patch('portfolio.views.gemini_client', None)
+    def test_chatbot_without_api_key_answers_from_latest_dashboard_data(self):
+        profile = Profile.objects.create(
+            name='Ajay Updated',
+            title='Django Developer',
+            summary='Builds practical Django applications.',
+            email='ajay@example.com',
+            phone='+91 1234567890',
+            location='Kochi',
+        )
+        category = SkillCategory.objects.create(name='Backend')
+        Skill.objects.create(category=category, name='Django REST Framework')
+
+        response = self.client.post(
+            reverse('chatbot_stream'),
+            data=json.dumps({'messages': [
+                {'role': 'user', 'content': 'What skills does Ajay have?'},
+            ]}),
+            content_type='application/json',
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Django REST Framework', response.json()['reply'])
+        self.assertNotIn(profile.summary, response.json()['reply'])
+
+    @patch('portfolio.views.gemini_client')
+    def test_chatbot_rejects_oversized_questions(self, gemini_client):
+        response = self.client.post(
+            reverse('chatbot_stream'),
+            data=json.dumps({'messages': [{'role': 'user', 'content': 'a' * 1201}]}),
+            content_type='application/json',
+        )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertFalse(gemini_client.models.generate_content.called)
 
 
 class ProjectURLValidationTests(TestCase):
