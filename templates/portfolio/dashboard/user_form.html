@@ -1,0 +1,23 @@
+{% extends 'portfolio/dashboard/base_dashboard.html' %}
+
+{% block dashboard_content %}
+<h1>{{ title }}</h1>
+
+<form method="post" class="dash-form">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="form-group">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {% if field.errors %}<span class="field-error">{{ field.errors.0 }}</span>{% endif %}
+    </div>
+    {% endfor %}
+    {% if form.non_field_errors %}
+    <div class="alert alert-error">{{ form.non_field_errors.0 }}</div>
+    {% endif %}
+    <div class="dash-actions">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a href="{% url 'user_list' %}" class="btn btn-outline">Cancel</a>
+    </div>
+</form>
+{% endblock %}

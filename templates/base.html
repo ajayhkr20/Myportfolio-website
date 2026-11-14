@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% if site_profile %}{{ site_profile.name }}{% else %}Portfolio{% endif %}{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block extra_css %}{% endblock %}
+    <script>
+        (() => {
+            try {
+                const theme = localStorage.getItem('portfolio-theme');
+                document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+            } catch {
+                document.documentElement.dataset.theme = 'dark';
+            }
+        })();
+    </script>
+</head>
+<body>
+    {% if messages %}
+    <div class="toast-container">
+        {% for message in messages %}
+        <div class="toast toast-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% block body %}{% endblock %}
+
+    <script src="{% static 'js/main.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+{% block portfolio_chatbot %}
+<!-- ═══════════════════════════════════════════════
+     AJAY'S PORTFOLIO AI CHATBOT — Redesigned v2
+     Real-time streaming · Responsive · Modern UI
+═══════════════════════════════════════════════ -->
+<style>
+#aj-chat-wrap{position:fixed;bottom:24px;right:24px;z-index:99999;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+
+/* Toggle button */
+#aj-toggle{width:56px;height:56px;border-radius:50%;background:#5b50f0;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(91,80,240,.38);transition:transform .2s,box-shadow .2s}
+#aj-toggle:hover{transform:scale(1.07);box-shadow:0 8px 32px rgba(91,80,240,.5)}
+#aj-toggle svg{width:24px;height:24px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+#aj-ic-x{display:none}
+/* Chat box */
+#aj-box{position:absolute;bottom:68px;right:0;width:340px;background:#ffffff;border-radius:20px;border:1px solid rgba(0,0,0,.07);box-shadow:0 20px 60px rgba(0,0,0,.13),0 4px 16px rgba(0,0,0,.06);display:none;flex-direction:column;overflow:hidden;height:490px}
+#aj-box.open{display:flex;animation:aj-popin .2s cubic-bezier(.34,1.36,.64,1)}
+@keyframes aj-popin{from{opacity:0;transform:translateY(14px) scale(.95)}to{opacity:1;transform:none}}
+
+/* Header */
+#aj-head{background:#5b50f0;padding:14px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.aj-hav{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#fff;flex-shrink:0;letter-spacing:.5px}
+.aj-hname{color:#fff;font-weight:600;font-size:13.5px;line-height:1.2}
+.aj-hsub{color:rgba(255,255,255,.68);font-size:11px;margin-top:2px}
+#aj-close-btn{margin-left:auto;background:rgba(255,255,255,.12);border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;flex-shrink:0}
+#aj-close-btn:hover{background:rgba(255,255,255,.24)}
+#aj-close-btn svg{width:14px;height:14px;stroke:#fff;stroke-width:2.5;stroke-linecap:round;fill:none}
+#aj-ondot{width:7px;height:7px;border-radius:50%;background:#4ade80;animation:aj-blink 3s infinite;flex-shrink:0}
+@keyframes aj-blink{0%,90%,100%{opacity:1}95%{opacity:.2}}
+.aj-onlbl{color:rgba(255,255,255,.7);font-size:10.5px}
+
+/* Messages */
+#aj-msgs{flex:1;overflow-y:auto;padding:14px 12px;display:flex;flex-direction:column;gap:9px;background:#f7f8fc;scroll-behavior:smooth}
+#aj-msgs::-webkit-scrollbar{width:4px}
+#aj-msgs::-webkit-scrollbar-thumb{background:#dde0ea;border-radius:4px}
+.aj-row{display:flex;gap:7px;align-items:flex-end}
+.aj-row.u{justify-content:flex-end}
+.aj-av{width:28px;height:28px;border-radius:50%;background:#5b50f0;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:700;color:#fff;letter-spacing:.3px}
+.bbl{padding:9px 13px;border-radius:16px;max-width:82%;font-size:13px;line-height:1.55;word-break:break-word}
+.bbl.bot{background:#fff;border:1px solid #e8eaf0;color:#1a1a2e;border-radius:16px 16px 16px 4px}
+.bbl.usr{background:#5b50f0;color:#fff;border-radius:16px 16px 4px 16px}
+.aj-cursor{display:inline-block;width:2px;height:12px;background:#5b50f0;margin-left:2px;vertical-align:middle;animation:aj-cur .7s infinite}
+@keyframes aj-cur{0%,100%{opacity:1}50%{opacity:0}}
+.tdot{width:6px;height:6px;border-radius:50%;background:#c5c8d6;display:inline-block;animation:aj-td 1.2s infinite}
+.tdot:nth-child(2){animation-delay:.2s}.tdot:nth-child(3){animation-delay:.4s}
+@keyframes aj-td{0%,80%,100%{transform:scale(.7);opacity:.4}40%{transform:scale(1.1);opacity:1}}
+
+/* Suggestions */
+#aj-sugs{padding:8px 10px 6px;display:flex;gap:5px;flex-wrap:wrap;background:#f7f8fc;border-top:1px solid #eceff5;flex-shrink:0}
+.aj-sug{font-size:11px;padding:4px 10px;border-radius:20px;border:1px solid #dde0ea;background:#fff;color:#4a4a6a;cursor:pointer;transition:all .15s;white-space:nowrap}
+.aj-sug:hover{background:#5b50f0;color:#fff;border-color:#5b50f0;transform:translateY(-1px)}
+
+/* Input area */
+#aj-foot{padding:10px 12px;border-top:1px solid #eceff5;display:flex;gap:8px;align-items:flex-end;background:#fff;flex-shrink:0}
+#aj-inp{flex:1;border:1px solid #e0e3ed;border-radius:20px;padding:8px 14px;font-size:13px;outline:none;resize:none;max-height:72px;overflow-y:auto;line-height:1.5;font-family:inherit;transition:border-color .2s,box-shadow .2s;background:#f7f8fc;color:#1a1a2e}
+#aj-inp:focus{border-color:#5b50f0;background:#fff;box-shadow:0 0 0 3px rgba(91,80,240,.08)}
+#aj-inp::placeholder{color:#9ea3b5}
+#aj-send{width:36px;height:36px;border-radius:50%;background:#5b50f0;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
+#aj-send:hover{background:#4740d4;transform:scale(1.06)}
+#aj-send:disabled{background:#c8cbdc;cursor:default;transform:none}
+#aj-send svg{width:14px;height:14px;fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transform:translateX(1px)}
+
+/* Responsive */
+@media(max-width:400px){
+  #aj-box{width:calc(100vw - 32px);right:-4px;height:calc(100dvh - 100px);max-height:520px}
+  #aj-chat-wrap{bottom:16px;right:16px}
+  #aj-toggle{width:52px;height:52px}
+}
+@media(max-height:600px){
+  #aj-box{height:calc(100dvh - 90px)}
+}
+
+#aj-toggle,#aj-head,.aj-av,#aj-send,.bbl.usr{background:var(--primary)}
+#aj-toggle:hover,#aj-send:hover{background:var(--primary-hover)}
+#aj-box{background:var(--surface);border-color:var(--border)}
+#aj-msgs,#aj-sugs{background:var(--bg-alt)}
+#aj-msgs::-webkit-scrollbar-thumb{background:var(--border)}
+.bbl.bot{background:var(--surface);border-color:var(--border);color:var(--text)}
+.aj-cursor{background:var(--primary)}
+#aj-sugs{border-color:var(--border)}
+.aj-sug{background:var(--surface);border-color:var(--border);color:var(--text-muted)}
+.aj-sug:hover{background:var(--primary);border-color:var(--primary);color:#fff}
+#aj-foot{background:var(--surface);border-color:var(--border)}
+#aj-inp{background:var(--bg);border-color:var(--border);color:var(--text)}
+#aj-inp:focus{background:var(--surface);border-color:var(--primary)}
+#aj-inp::placeholder{color:var(--text-muted)}
+</style>
+
+{% if chatbot_welcome %}{{ chatbot_welcome|json_script:"aj-chat-welcome" }}{% endif %}
+
+<div id="aj-chat-wrap">
+
+  <div id="aj-box">
+
+    <!-- Header -->
+    <div id="aj-head">
+      <div class="aj-hav">AA</div>
+
+      <div>
+        <div class="aj-hname">Ajay A · Portfolio Assistant</div>
+        <div class="aj-hsub">AI-powered · real-time</div>
+      </div>
+
+      <div style="margin-left:auto;display:flex;align-items:center;gap:6px">
+        <div id="aj-ondot"></div>
+        <span class="aj-onlbl">Online</span>
+
+        <button
+          id="aj-close-btn"
+          onclick="ajToggle()"
+          aria-label="Close chat">
+          <svg viewBox="0 0 24 24">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+
+    <!-- Messages -->
+    <div id="aj-msgs"></div>
+
+
+    <!-- Input -->
+    <div id="aj-foot">
+      <textarea
+        id="aj-inp"
+        rows="1"
+        placeholder="Ask me anything about Ajay…"></textarea>
+
+      <button
+        id="aj-send"
+        onclick="ajSend()"
+        aria-label="Send">
+
+        <svg viewBox="0 0 24 24">
+          <line x1="22" y1="2" x2="11" y2="13"/>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+
+      </button>
+    </div>
+
+  </div>
+
+
+  <!-- Floating Chat Button -->
+  <button
+    id="aj-toggle"
+    onclick="ajToggle()"
+    aria-label="Open AI chat">
+
+    <svg
+      id="aj-ic-chat"
+      viewBox="0 0 24 24">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+    </svg>
+
+    <svg
+      id="aj-ic-x"
+      viewBox="0 0 24 24">
+      <line x1="18" y1="6" x2="6" y2="18"/>
+      <line x1="6" y1="6" x2="18" y2="18"/>
+    </svg>
+
+  </button>
+
+</div>
+
+<script>
+(function(){
+  const box=document.getElementById('aj-box'),
+        msgs=document.getElementById('aj-msgs'),
+        inp=document.getElementById('aj-inp'),
+        snd=document.getElementById('aj-send'),
+        icChat=document.getElementById('aj-ic-chat'),
+        icX=document.getElementById('aj-ic-x');
+  const welcomeData=document.getElementById('aj-chat-welcome');
+  const welcomeText=welcomeData?JSON.parse(welcomeData.textContent):"Hi! Ask me about Ajay's portfolio.";
+  let open=false,history=[],busy=false;
+
+  window.ajToggle=function(){
+    open=!open;
+    box.classList.toggle('open',open);
+    icChat.style.display=open?'none':'block';
+    icX.style.display=open?'block':'none';
+    if(open&&!msgs.children.length) ajWelcome();
+    if(open) setTimeout(()=>msgs.scrollTop=msgs.scrollHeight,50);
+  };
+
+  function ajWelcome(){
+    ajBotBubble(welcomeText);
+  }
+
+  function ajBotBubble(txt){
+    const row=document.createElement('div'); row.className='aj-row';
+    const av=document.createElement('div'); av.className='aj-av'; av.textContent='AA';
+    const b=document.createElement('div'); b.className='bbl bot';
+    b.style.whiteSpace='pre-wrap';
+    b.textContent=txt;
+    row.append(av,b); msgs.appendChild(row);
+    msgs.scrollTop=msgs.scrollHeight;
+    return b;
+  }
+
+  function ajUserBubble(txt){
+    const row=document.createElement('div'); row.className='aj-row u';
+    const b=document.createElement('div'); b.className='bbl usr'; b.textContent=txt;
+    row.appendChild(b); msgs.appendChild(row);
+    msgs.scrollTop=msgs.scrollHeight;
+  }
+
+  function showTyping(){
+    const row=document.createElement('div'); row.className='aj-row'; row.id='aj-typing';
+    const av=document.createElement('div'); av.className='aj-av'; av.textContent='AA';
+    const b=document.createElement('div'); b.className='bbl bot';
+    b.style.cssText='display:flex;align-items:center;gap:4px;padding:12px 14px';
+    b.innerHTML='<span class="tdot"></span><span class="tdot"></span><span class="tdot"></span>';
+    row.append(av,b); msgs.appendChild(row);
+    msgs.scrollTop=msgs.scrollHeight;
+  }
+  function hideTyping(){const el=document.getElementById('aj-typing');if(el)el.remove();}
+
+  async function ajStream(text){
+    busy=true; snd.disabled=true;
+    showTyping();
+    let reply='';
+    try{
+      const res=await fetch('/chatbot/',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({messages:history})
+      });
+      const data=await res.json();
+      if(!res.ok) throw new Error(data.error||'Server error '+res.status);
+      reply=data.reply||'Sorry, I got an empty response.';
+    }catch(err){
+      reply='Error: '+err.message+'. Please try again.';
+    }
+    hideTyping();
+    const bub=ajBotBubble('');
+    bub.style.whiteSpace='pre-wrap';
+    const cur=document.createElement('span'); cur.className='aj-cursor';
+    bub.appendChild(cur);
+    let i=0;
+    const iv=setInterval(()=>{
+      if(i<reply.length){
+        bub.textContent=reply.slice(0,++i);
+        bub.appendChild(cur);
+        msgs.scrollTop=msgs.scrollHeight;
+      }else{
+        clearInterval(iv);
+        cur.remove();
+        bub.textContent=reply;
+        history.push({role:'assistant',content:reply});
+        busy=false; snd.disabled=false;
+        inp.focus();
+      }
+    },14);
+  }
+
+  window.ajSend=async function(){
+    const text=inp.value.trim();
+    if(!text||busy)return;
+    inp.value=''; inp.style.height='auto';
+    ajUserBubble(text);
+    history.push({role:'user',content:text});
+    await ajStream(text);
+  };
+
+  window.ajQuick=function(q){
+    if(!open) ajToggle();
+    setTimeout(()=>{inp.value=q; ajSend();},open?0:200);
+  };
+
+  inp.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();ajSend();}});
+  inp.addEventListener('input',()=>{inp.style.height='auto';inp.style.height=Math.min(inp.scrollHeight,72)+'px';});
+
+})();
+</script>
+<!-- ═══════════════ END CHATBOT ═══════════════ -->
+{% endblock %}
+
+</body>
+</html>

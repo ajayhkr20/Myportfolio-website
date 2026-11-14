@@ -1,0 +1,358 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ profile.name|default:"Ajay A" }} — Portfolio{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/projects-enhanced.css' %}">
+{% endblock %}
+
+{% block body %}
+<nav class="navbar" id="navbar">
+    <div class="container nav-inner">
+        <a href="#home" class="logo">{{ profile.name|default:"AJAY A" }}</a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#education">Education</a></li>
+            <li><a href="#contact">Contact</a></li>
+            {% if profile.resume %}
+            <li><a href="{% url 'download_resume' %}" class="btn btn-sm btn-outline">Resume</a></li>
+            {% endif %}
+        </ul>
+        <div class="nav-actions">
+            <button class="theme-toggle theme-toggle-portfolio" id="themeToggle" type="button" aria-label="Switch to light theme" aria-pressed="false">
+                <i class="fas fa-sun theme-icon-light" aria-hidden="true"></i>
+                <i class="fas fa-moon theme-icon-dark" aria-hidden="true"></i>
+            </button>
+            <button class="nav-toggle" id="navToggle" aria-label="Open navigation menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<!-- ── HERO ── -->
+<header class="hero" id="home">
+    <div class="hero-dots"></div>
+    <div class="container hero-grid">
+        <div class="hero-content">
+            <p class="hero-greeting">Hello, I'm</p>
+            <h1 class="hero-name">{{ profile.name|default:"AJAY A" }}</h1>
+            <p class="hero-title">{{ profile.title|default:"Python Developer" }}</p>
+            <p class="hero-summary">{{ profile.summary|default:"Python Developer specializing in Django, REST APIs, PostgreSQL, and backend development." }}</p>
+            <div class="hero-actions">
+                <a href="#contact" class="btn btn-primary">Hire Me</a>
+                {% if profile.resume %}
+                <a href="{% url 'download_resume' %}" class="btn btn-outline">Download Resume</a>
+                {% endif %}
+            </div>
+            <div class="hero-social">
+                {% if profile.github_url %}
+                <a href="{{ profile.github_url }}" target="_blank" rel="noopener"><i class="fab fa-github"></i> GitHub</a>
+                {% endif %}
+                {% if profile.linkedin_url %}
+                <a href="{{ profile.linkedin_url }}" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                {% endif %}
+                <a href="mailto:{{ profile.email|default:'ajayhkr2002@gmail.com' }}"><i class="fas fa-envelope"></i> Email</a>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="hero-card">
+                <div class="hero-photo-frame">
+                    {% if profile and profile.profile_photo %}
+                    <img src="{{ profile.profile_photo.url }}" alt="{{ profile.name }}" class="hero-photo">
+                    {% else %}
+                    <div class="hero-avatar">{{ profile.name|default:"A"|slice:":1" }}</div>
+                    {% endif %}
+                </div>
+                <div class="hero-meta">
+                    <p class="hero-card-designation">Software Engineer</p>
+                    <h2 class="hero-card-name">{{ profile.name|default:"Ajay A" }}</h2>
+                    <p class="hero-card-location"><i class="fas fa-location-dot" aria-hidden="true"></i> {{ profile.location|default:"Kochi, Kerala" }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- ── ABOUT ── -->
+<section id="about" class="about-section">
+    <div class="about-container">
+        <div class="about-intro reveal">
+            <span class="about-label">ABOUT ME</span>
+            <h2 class="about-title">Building intelligent &amp; scalable applications with <span>Python, Django, React &amp; AI</span></h2>
+            <p class="about-description">
+                I am a Python Developer focused on building modern, scalable, and intelligent web
+                applications. I work across backend and full-stack development, REST API integration,
+                and AI-powered solutions.
+            </p>
+            <p class="about-highlight">
+                I turn complex business requirements into practical software by combining sound
+                backend architecture with modern frontend technologies. My work includes business
+                applications, RESTful APIs, database-backed workflows, third-party integrations, and
+                AI features using LLMs and intelligent automation. I value clean, maintainable code,
+                secure development practices, and thoughtful performance.
+            </p>
+            <div class="about-expertise">
+                <div class="about-expertise-heading">
+                    <span class="about-expertise-kicker">WHAT I WORK WITH</span>
+                    <h3>Core technical expertise</h3>
+                </div>
+                <div class="about-expertise-grid">
+                    <article class="expertise-card">
+                        <span class="expertise-icon"><i class="fas fa-server" aria-hidden="true"></i></span>
+                        <h4>Backend</h4>
+                    </article>
+                    <article class="expertise-card">
+                        <span class="expertise-icon"><i class="fas fa-laptop-code" aria-hidden="true"></i></span>
+                        <h4>Frontend</h4>
+                    </article>
+                    <article class="expertise-card">
+                        <span class="expertise-icon"><i class="fas fa-database" aria-hidden="true"></i></span>
+                        <h4>Databases &amp; Caching</h4>
+                    </article>
+                    <article class="expertise-card">
+                        <span class="expertise-icon"><i class="fas fa-brain" aria-hidden="true"></i></span>
+                        <h4>AI &amp; Integration</h4>
+                    </article>
+                    <article class="expertise-card">
+                        <span class="expertise-icon"><i class="fas fa-diagram-project" aria-hidden="true"></i></span>
+                        <h4>API Development</h4>
+                    </article>
+                </div>
+            </div>
+            <div class="about-vision">
+                <span class="about-vision-icon"><i class="fas fa-lightbulb" aria-hidden="true"></i></span>
+                <p><strong>My vision</strong> is to build innovative, intelligent, and scalable applications by combining modern web technologies with the power of Artificial Intelligence.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ── SKILLS ── -->
+<section class="section section-alt" id="skills">
+    <div class="container">
+
+        <div class="section-head-wrap reveal">
+            <h2 class="section-title">Technical Skills</h2>
+        </div>
+
+        <div class="skills-grid">
+
+            {% for category in skills %}
+            <div class="skill-card reveal">
+
+                <div class="skill-header">
+                    <div class="skill-category-name">
+                        <span class="skill-category-mark" aria-hidden="true"><i class="fas fa-layer-group"></i></span>
+                        <h3>{{ category.name }}</h3>
+                    </div>
+                </div>
+
+                <div class="skill-tags">
+                    {% for skill in category.skills.all %}
+                    <span class="tag">{{ skill.name }}</span>
+                    {% endfor %}
+                </div>
+
+            </div>
+            {% endfor %}
+
+        </div>
+
+    </div>
+</section>
+
+<!-- ── EXPERIENCE ── -->
+<section class="section" id="experience">
+    <div class="container">
+        <div class="section-head-wrap reveal">
+            <h2 class="section-title">Professional Experience</h2>
+            <p class="section-subtitle">
+                My journey in web development, internships, and hands-on project experience.
+            </p>
+        </div>
+        <div class="timeline">
+            {% for exp in experiences %}
+            <article class="timeline-item reveal">
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                    <div class="timeline-header">
+                        <h3>{{ exp.role }}</h3>
+                        <span class="timeline-date">{{ exp.start_date }} – {{ exp.end_date|default:"Present" }}</span>
+                    </div>
+                    <p class="timeline-company">{{ exp.company }}{% if exp.location %} · {{ exp.location }}{% endif %}</p>
+                    <ul class="timeline-list">
+                        {% for line in exp.description.splitlines %}
+                        {% if line.strip %}<li>{{ line }}</li>{% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            </article>
+            {% empty %}
+            <p class="empty-state">Experience entries will appear here.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ── PROJECTS ── -->
+<section class="section section-alt" id="projects">
+    <canvas id="projects-canvas"></canvas>
+    <div class="container">
+        <div class="section-head-wrap reveal">
+            <h2 class="section-title">Projects</h2>
+            <!-- <p class="section-subtitle" id="proj-count">A selection of things I've built.</p> -->
+        </div>
+
+        <!-- Filter tabs injected by JS -->
+
+        <div class="projects-grid">
+            {% for project in projects %}
+            <article class="project-card">
+                <div class="project-card-bar"></div>
+
+                <!-- Image / animated placeholder -->
+                <div class="project-img-wrap">
+                    {% if project.image %}
+                    <img src="{{ project.image.url }}" alt="{{ project.title }}" class="project-img">
+                    {% else %}
+                    <div class="project-placeholder">
+                        <span class="ph-icon"><i class="fas fa-code"></i></span>
+                    </div>
+                    {% endif %}
+                    <!-- <div class="project-overlay">
+                        {% if project.github_url %}<a href="{{ project.github_url }}" target="_blank" class="ov-btn gh"><i class="fab fa-github"></i> Code</a>{% endif %}
+                        {% if project.live_url %}<a href="{{ project.live_url }}" target="_blank" class="ov-btn lv"><i class="fas fa-external-link-alt"></i> Live</a>{% endif %}
+                    </div> -->
+                </div>
+
+                <!-- Body -->
+                <div class="project-body">
+                    <!-- <span class="project-num">PROJECT {{ forloop.counter|stringformat:"02d" }}</span> -->
+                    <h3>{{ project.title }}</h3>
+                    <p class="project-desc">
+                        {{ project.description|linebreaksbr }}
+                    </p>
+                    <!-- Tech tags — upgraded to icon badges by JS -->
+                    <div class="skill-tags">
+                        {% for tech in project.tech_stack.split %}
+                        <span class="tag tag-sm">{{ tech|cut:"," }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="project-links">
+                        {% if project.github_url %}
+                        <a href="{{ project.github_url }}" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                        {% endif %}
+                        {% if project.live_url %}
+                        <a href="{{ project.live_url }}" target="_blank"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </article>
+            {% empty %}
+            <p class="empty-state" style="grid-column:1/-1">Projects will appear here.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ── EDUCATION ── -->
+<section class="section" id="education">
+    <div class="container">
+        <div class="section-head-wrap reveal">
+            <h2 class="section-title">Education</h2>
+        </div>
+        <div class="education-grid">
+            {% for edu in education %}
+            <div class="edu-card reveal reveal-d{{ forloop.counter|add:'0' }}">
+                <h3>{{ edu.degree }}</h3>
+                <p>{{ edu.institution }}</p>
+                <span class="edu-period">{{ edu.period }}</span>
+            </div>
+            {% empty %}
+            <p class="empty-state">Education entries will appear here.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section class="section section-alt contact-section" id="contact">
+    <div class="container">
+        <div class="section-head-wrap reveal">
+            <span class="contact-eyebrow">LET’S CONNECT</span>
+            <h2 class="section-title">Have a project in mind?</h2>
+            <p class="section-subtitle">Tell me what you’re working on. I’m happy to discuss opportunities, ideas, and how I can help.</p>
+        </div>
+        <div class="contact-grid">
+            <div class="contact-info reveal">
+                <div class="contact-intro">
+                    <h3>Let’s make your next idea work.</h3>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-item-icon"><i class="fas fa-envelope" aria-hidden="true"></i></span>
+                    <span><strong>Email</strong>
+                    <a href="mailto:{{ profile.email|default:'ajayhkr2002@gmail.com' }}">{{ profile.email|default:"ajayhkr2002@gmail.com" }}</a></span>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-item-icon"><i class="fas fa-phone" aria-hidden="true"></i></span>
+                    <span><strong>Phone</strong>
+                    <a href="tel:{{ profile.phone|default:'+918270197997' }}">{{ profile.phone|default:"+91 8270197997" }}</a></span>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-item-icon"><i class="fas fa-location-dot" aria-hidden="true"></i></span>
+                    <span><strong>Location</strong>
+                    <span>{{ profile.location|default:"Kochi, Kerala" }}</span></span>
+                </div>
+            </div>
+            <form method="post" action="{% url 'contact_submit' %}" class="contact-form reveal reveal-d1">
+                {% csrf_token %}
+                <div class="contact-form-heading">
+                    <h3>Send a message</h3>
+                    <p>Fields marked below are required.</p>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="{{ contact_form.name.id_for_label }}">Your name</label>
+                        {{ contact_form.name }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ contact_form.email.id_for_label }}">Email address</label>
+                        {{ contact_form.email }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="{{ contact_form.subject.id_for_label }}">Subject</label>
+                    {{ contact_form.subject }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ contact_form.message.id_for_label }}">Message</label>
+                    {{ contact_form.message }}
+                </div>
+                <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-paper-plane" aria-hidden="true"></i> Send Message</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="footer">
+    <div class="container footer-inner">
+        <p>&copy; {% now "Y" %} {{ profile.name|default:"Ajay A" }}. ajayhkr2002@gmail.com</p>
+        <!-- <a href="{% url 'login' %}" class="footer-admin">Admin</a> -->
+        <div class="social-icons">
+            <a href="https://www.instagram.com/ajay.offx_2?igsh=MWtqZjU1NHJvdmV6aQ==" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://wa.me/918270197997" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        </div>
+    </div>
+</footer>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/projects.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'portfolio/dashboard/base_dashboard.html' %}
+
+{% block dashboard_content %}
+<div class="dash-header-row">
+    <div>
+        <h1>Contact Messages</h1>
+        <p class="dash-sub">Messages from visitors via the contact form.</p>
+    </div>
+</div>
+
+<form method="get" class="search-form">
+    <input type="text" name="q" value="{{ q }}" placeholder="Search messages..." class="form-control">
+    <button type="submit" class="btn btn-outline">Search</button>
+</form>
+
+<div class="table-wrap">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Subject</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for msg in messages_list %}
+            <tr class="{% if not msg.is_read %}unread{% endif %}">
+                <td>{{ msg.name }}</td>
+                <td>{{ msg.email }}</td>
+                <td>{{ msg.subject|truncatewords:6 }}</td>
+                <td>{{ msg.created_at|date:"M d, Y H:i" }}</td>
+                <td>{% if msg.is_read %}Read{% else %}<strong>New</strong>{% endif %}</td>
+                <td class="actions">
+                    <a href="{% url 'message_detail' msg.pk %}">View</a>
+                    <a href="{% url 'message_delete' msg.pk %}" class="danger">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="6" class="empty-state">No messages found.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

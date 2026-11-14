@@ -1,0 +1,79 @@
+{% extends 'portfolio/dashboard/base_dashboard.html' %}
+
+{% block dashboard_content %}
+<div class="dash-header-row">
+    <div>
+        <h1>Skills</h1>
+        <p class="dash-sub">Organize skills into categories shown on your public portfolio.</p>
+    </div>
+    <a href="#add-category" class="btn btn-outline"><i class="fas fa-plus"></i> New category</a>
+</div>
+
+<section class="skill-category-form" id="add-category">
+    <div class="skills-section-heading">
+        <div>
+            <span class="skills-step">STEP 01</span>
+            <h2>Create a category</h2>
+            <p class="dash-sub">Start with a group such as Backend, Frontend, or Tools.</p>
+        </div>
+    </div>
+    <form method="post" class="dash-form">
+        {% csrf_token %}
+        <div class="category-form-fields">
+            {% for field in category_form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+                {% for error in field.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Add category</button>
+        </div>
+    </form>
+</section>
+
+<section class="skill-category-list">
+    <div class="skills-section-heading">
+        <div>
+            <span class="skills-step">STEP 02</span>
+            <h2>Your skill categories</h2>
+        </div>
+        <span class="skills-total">{{ categories|length }} categor{{ categories|length|pluralize:"y,ies" }}</span>
+    </div>
+    {% for category in categories %}
+    <article class="skill-category-admin">
+        <header class="skill-category-header">
+            <div class="skill-category-title">
+                <span class="skill-category-icon"><i class="fas fa-layer-group"></i></span>
+                <div>
+                    <h3>{{ category.name }}</h3>
+                    <span class="skill-count">{{ category.skills.count }} skill{{ category.skills.count|pluralize }}</span>
+                </div>
+            </div>
+            <a href="{% url 'skill_create' %}?category={{ category.pk }}" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> Add one skill</a>
+        </header>
+        <div class="skill-chip-list">
+            {% for skill in category.skills.all %}
+            <div class="skill-admin-chip">
+                <span>{{ skill.name }}</span>
+                <span class="skill-chip-order">#{{ skill.order }}</span>
+                <a href="{% url 'skill_edit' skill.pk %}" aria-label="Edit {{ skill.name }}" title="Edit skill"><i class="fas fa-pen"></i></a>
+                <form method="post" action="{% url 'skill_delete' skill.pk %}" onsubmit="return confirm('Delete {{ skill.name|escapejs }}?');">
+                    {% csrf_token %}
+                    <button type="submit" class="skill-delete-btn" aria-label="Delete {{ skill.name }}" title="Delete skill"><i class="fas fa-trash"></i></button>
+                </form>
+            </div>
+            {% empty %}
+            <p class="skill-category-empty">No skills yet. Add the first skill to this category.</p>
+            {% endfor %}
+        </div>
+    </article>
+    {% empty %}
+    <div class="skills-empty-state">
+        <span class="skill-category-icon"><i class="fas fa-layer-group"></i></span>
+        <h3>No categories yet</h3>
+        <p>Create your first category above. Then add related skills one at a time.</p>
+    </div>
+    {% endfor %}
+</section>
+{% endblock %}

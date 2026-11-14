@@ -1,0 +1,24 @@
+{% extends 'portfolio/dashboard/base_dashboard.html' %}
+
+{% block dashboard_content %}
+<h1>{{ title }}</h1>
+{% if not has_categories %}
+<p class="dash-sub">Create a skill category before adding a skill.</p>
+<a href="{% url 'skill_manager' %}" class="btn btn-outline">Manage Categories</a>
+{% else %}
+<form method="post" class="dash-form">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="form-group">
+        {{ field.label_tag }}
+        {{ field }}
+        {% for error in field.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+    </div>
+    {% endfor %}
+    <div class="dash-actions">
+        <button type="submit" class="btn btn-primary">Save Skill</button>
+        <a href="{% url 'skill_manager' %}" class="btn btn-outline">Cancel</a>
+    </div>
+</form>
+{% endif %}
+{% endblock %}

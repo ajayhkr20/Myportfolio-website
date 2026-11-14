@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block body %}
+<div class="dashboard-layout">
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <a href="{% url 'dashboard' %}" class="sidebar-logo">
+                <span class="sidebar-logo-mark">A</span>
+                <span><strong>Portfolio</strong><small>CONTROL CENTER</small></span>
+            </a>
+        </div>
+        <nav class="sidebar-nav">
+            <span class="sidebar-section-label">WORKSPACE</span>
+            <a href="{% url 'dashboard' %}" class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}"><i class="fas fa-grip"></i> Dashboard</a>
+            <a href="{% url 'manage_profile' %}" class="{% if request.resolver_match.url_name == 'manage_profile' %}active{% endif %}"><i class="far fa-id-card"></i> Profile & Resume</a>
+            <a href="{% url 'skill_manager' %}" class="{% if 'skill' in request.resolver_match.url_name %}active{% endif %}"><i class="fas fa-layer-group"></i> Skills</a>
+            <a href="{% url 'crud_list' 'experience' %}" class="{% if request.resolver_match.kwargs.model_name == 'experience' %}active{% endif %}"><i class="fas fa-briefcase"></i> Experience</a>
+            <a href="{% url 'crud_list' 'project' %}" class="{% if request.resolver_match.kwargs.model_name == 'project' %}active{% endif %}"><i class="fas fa-code"></i> Projects</a>
+            <a href="{% url 'crud_list' 'education' %}" class="{% if request.resolver_match.kwargs.model_name == 'education' %}active{% endif %}"><i class="fas fa-graduation-cap"></i> Education</a>
+            <span class="sidebar-section-label">ENGAGEMENT</span>
+            <a href="{% url 'message_list' %}" class="{% if 'message' in request.resolver_match.url_name %}active{% endif %}"><i class="far fa-envelope"></i> Messages</a>
+            <a href="{% url 'visitor_list' %}" class="{% if request.resolver_match.url_name == 'visitor_list' %}active{% endif %}"><i class="far fa-eye"></i> Visitors</a>
+            <a href="{% url 'user_list' %}" class="{% if 'user' in request.resolver_match.url_name %}active{% endif %}"><i class="fas fa-users"></i> Users</a>
+            <span class="sidebar-section-label">SYSTEM</span>
+            <a href="/admin/" target="_blank" rel="noopener"><i class="fas fa-sliders-h"></i> Django Admin</a>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="{% url 'home' %}" class="view-site-link"><i class="fas fa-arrow-up-right-from-square"></i> View live site</a>
+            <a href="{% url 'logout' %}" class="logout-link"><i class="fas fa-arrow-right-from-bracket"></i> Sign out</a>
+        </div>
+    </aside>
+    <div class="dashboard-main">
+        <header class="dash-topbar">
+            <div class="dash-topbar-start">
+                <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">☰</button>
+                <span class="dash-breadcrumb">Workspace <span>/</span> {{ request.resolver_match.url_name|title }}</span>
+            </div>
+            <div class="dash-topbar-actions">
+                <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to light theme" aria-pressed="false">
+                    <i class="fas fa-sun theme-icon-light" aria-hidden="true"></i>
+                    <i class="fas fa-moon theme-icon-dark" aria-hidden="true"></i>
+                </button>
+                <span class="user-chip"><span class="user-chip-avatar">{{ request.user.username|slice:":1"|upper }}</span>{{ request.user.username }}</span>
+            </div>
+        </header>
+        <main class="dash-content">
+            {% block dashboard_content %}{% endblock %}
+        </main>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById('sidebarToggle')?.addEventListener('click', () => {
+    document.getElementById('sidebar')?.classList.toggle('open');
+});
+</script>
+{% endblock %}
+
+{% block portfolio_chatbot %}{% endblock %}
