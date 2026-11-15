@@ -172,9 +172,6 @@
     <div class="container">
         <div class="section-head-wrap reveal">
             <h2 class="section-title">Professional Experience</h2>
-            <p class="section-subtitle">
-                My journey in web development, internships, and hands-on project experience.
-            </p>
         </div>
         <div class="timeline">
             {% for exp in experiences %}
@@ -206,7 +203,7 @@
     <div class="container">
         <div class="section-head-wrap reveal">
             <h2 class="section-title">Projects</h2>
-            <!-- <p class="section-subtitle" id="proj-count">A selection of things I've built.</p> -->
+            <p class="section-subtitle" id="proj-count">A selection of things I’ve built.</p>
         </div>
 
         <!-- Filter tabs injected by JS -->
@@ -270,6 +267,7 @@
         <div class="education-grid">
             {% for edu in education %}
             <div class="edu-card reveal reveal-d{{ forloop.counter|add:'0' }}">
+                <span class="edu-icon" aria-hidden="true"><i class="fas fa-graduation-cap"></i></span>
                 <h3>{{ edu.degree }}</h3>
                 <p>{{ edu.institution }}</p>
                 <span class="edu-period">{{ edu.period }}</span>
@@ -287,7 +285,6 @@
         <div class="section-head-wrap reveal">
             <span class="contact-eyebrow">LET’S CONNECT</span>
             <h2 class="section-title">Have a project in mind?</h2>
-            <p class="section-subtitle">Tell me what you’re working on. I’m happy to discuss opportunities, ideas, and how I can help.</p>
         </div>
         <div class="contact-grid">
             <div class="contact-info reveal">
